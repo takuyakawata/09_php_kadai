@@ -3,51 +3,12 @@
 include('_header.php');
 
 ?>
+
 <main>
-        <h1>GOOGLE BOOKS での検索（とりあえず）</h1>
+        <h1>（とりあえず home画面としておく）</h1>
         <h1>できたら、楽天、アマゾンをつけてみる</h1>
         <h1>==================================</h1>
-
-        <form class="btns" action="bk_search_create.php" method="POST">
-            <div class="btn">
-            <p>本の名前を入力してね！</p>
-            <a href="books_read.php">タイトル履歴</a>
-            <input  name="title" id="keyword" width="30" height="20">
-            </input>
-            <button id="send" class="search">タイトルで検索</button>
-            </div>
-
-            <div class="btn near_lib">
-                <p>近くのと図書館にあるかな？</p>
-                <div id="lib_result">     </div>
-                <button id="lib_btn" class="search">図書館検索</button>
-                <button id="lib2_btn" class="search">蔵書検索</button>
-            </div>
-        </form>
-
-<!-- 検索した結果がここに出るようにする -->
-<section id="output">
-            <!-- <div >　jsで検索ができた後に挿入される
-                <section class="result">
-                    <div class="img">
-                    <img src="${response.data.items[i].volumeInfo.imageLinks.smallThumbnail}">
-                    </div>
-                    <div class="title">
-                        <p>題名${response.data.items[i].volumeInfo.title}</p>
-                    </div>
-                    <div class="author">
-                        <p>${response.data.items[i].volumeInfo.authors}</p>
-                    </div>
-                    <div class="link">
-                        <a href="${response.data.items[i].volumeInfo.infoLink}">
-                        <p>詳細</p>
-                    </div>
-                    </section>
-            </div> -->
-
-            </section>
-
-
+       
 </main>
 
 <script type="text/javascript">

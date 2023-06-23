@@ -55,3 +55,6 @@ try {
 // データ入力画面に移動する
 header("Location:bk_search_home.php");
 ?>
+<?php
+include('_search.php');
+?>

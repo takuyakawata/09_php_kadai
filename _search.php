@@ -45,12 +45,10 @@ if (!empty($result)) {
 
 <form class="btns" action="bk_search_create.php" method="POST">
 
-            <div class="btn">
-            <p>本の名前を入力してね！</p>
-            <a href="">タイトル履歴</a>
-            <input  name="title" id="keyword" width="30" height="20">
-            </input>
-            <button id="send" class="search">タイトルで検索</button>
-            </div>
+  <div class="btn">
+    <a href="">タイトル履歴</a>
+    <input  name="title" id="keyword" width="30" height="20"></input>
+    <button id="send" class="search">タイトルで検索</button>
+  </div>
         
-        </form>
+</form>

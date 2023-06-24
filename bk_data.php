@@ -3,6 +3,8 @@
 include('_header.php');
 
 ?>
+
+</header>
 <div>data</div>
 <div>data</div>
 <div>data</div>

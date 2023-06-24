@@ -30,7 +30,7 @@ include('_header.php');
 $("#lib_btn").on('click',function(){
 
 const libUrl =
-        "https://api.calil.jp/library?appkey={da280c479ff3323463183ff2c51aa5f5}&pref=山口県&city=山口市&limit=10";
+        "https://api.calil.jp/library?appkey={}&pref=山口県&city=山口市&limit=10";
 
 axios.get(libUrl)
     .then(function (response) {
@@ -53,7 +53,7 @@ axios.get(libUrl)
 // 蔵書検索を行う
 $("#lib2_btn").on('click', function(){
     const libUrl2 =
-        "http://api.calil.jp/check?appkey={da280c479ff3323463183ff2c51aa5f5}&isbn=4834000826&systemid=Aomori_Pref&format=json";
+        "http://api.calil.jp/check?appkey={}&isbn=4834000826&systemid=Aomori_Pref&format=json";
 });
 
 </script>

@@ -11,3 +11,4 @@ if (isset($_SESSION['id'])) {//ログインしているとき
 ?>
 <h1><?php echo $msg; ?></h1>
 <?php echo $link; ?>
+</header>

@@ -17,7 +17,7 @@ try {
 
 // SQL作成&実行
 //フォームに入力されたmailがすでに登録されていないかチェック
-$sql = "SELECT * FROM users WHERE mail = :mail";
+$sql = "SELECT * FROM books_users WHERE mail = :mail";
 
 $stmt = $dbh->prepare($sql);
 
@@ -27,19 +27,19 @@ $stmt->execute();
 $member = $stmt->fetch();
 
 // SQL実行
-if ($member['mail'] === $mail) {
+if ($member['mail'] === (string)$mail) {
     $msg = '同じメールアドレスが存在します。';
     $link = '<a href="signup.php">戻る</a>';
 } else {
     //登録されていなければinsert
-    $sql = "INSERT INTO users(name, mail, pass) VALUES (:name, :mail, :pass)";
+    $sql = "INSERT INTO books_users(name, mail, pass) VALUES (:name, :mail, :pass)";
     $stmt = $dbh->prepare($sql);
     $stmt->bindValue(':name', $name);
     $stmt->bindValue(':mail', $mail);
     $stmt->bindValue(':pass', $pass);
     $stmt->execute();
     $msg = '会員登録が完了しました';
-    $link = '<a href="login.php">ログインページ</a>';
+    $link = '<a href="login_form.php">ログインページ</a>';
 }
 ?>
 

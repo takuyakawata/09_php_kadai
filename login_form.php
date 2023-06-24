@@ -15,4 +15,7 @@
 <input type="submit" value="ログイン">
 </form>
 
+<a href="signup.php">新規会員登録</a>
+
+
 

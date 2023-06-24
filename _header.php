@@ -1,15 +1,15 @@
 <?php
-
 $n = mt_rand(1, 3);
-
 ?>
+
 <!DOCTYPE html>
 <html lang="ja">
-<head>
-  <meta charset="utf-8">
-  <title>MEET BOOKS</title>
 
-  <link rel="stylesheet" href="css/bk_search.css">
+<head>
+<meta charset="utf-8">
+<title>MEET BOOKS</title>
+
+<link rel="stylesheet" href="css/bk_search.css">
 
 <!-- firebase -->
     <script src="https://www.gstatic.com/firebasejs/ui/6.0.1/firebase-ui-auth.js"></script>
@@ -30,18 +30,23 @@ $n = mt_rand(1, 3);
 <script
     src="https://www.bing.com/api/maps/mapcontrol?mkt=ja-jp&key=AqcwE4abAtRFTiK8xl_Hcl35LxP0D8YT8NptLKATGrPItDqV-1yxYGNN8nXN-Tis"></script>
 
+<!-- tailwindCSS -->
+<script src="https://cdn.tailwindcss.com"></script>
 
 </head>
+
 <body>
     <header>
     <div class="top_text">自分の欲しい本を探して、読もうね！！</div>
 
 <style>
-.top_text {
+.top_text{
     background-color: rgb(217, 145, 208);
     color: bisque;
     font-size: 28px;
 }
+header{
+    background-color: rgb(217, 145, 208);
+}
 </style>
 
-    </header>

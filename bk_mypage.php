@@ -3,6 +3,7 @@
 include('_header.php');
 
 ?>
+</header>
 <div>mypage</div>
 <div>mypage</div>
 <div>mypage</div>

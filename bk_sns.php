@@ -3,6 +3,8 @@
 include('_header.php');
 
 ?>
+
+</header>
 <div>sns</div>
 <div>sns</div>
 <div>sns</div>

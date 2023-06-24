@@ -1,7 +1,7 @@
 </section>
 
   <footer class="menu">
-    <a href="bk_search_home.php">
+    <a href="bk_search_home2.php">
         <div>検索</div></a>
     <a href="bk_data.php">
         <div>本棚</div></a>

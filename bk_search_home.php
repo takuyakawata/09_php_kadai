@@ -1,39 +1,31 @@
 <?php
-
 include('_header.php');
-
-?>
-<?php
-
-include('i.php');
-
+include('_username.php');
 ?>
 
 <main>
-        <p>GOOGLE BOOKS での検索（とりあえず）</p>
 <?php
 // 本の検索のフォーム
 include('_search.php');
 ?>
 
+        <div class="btn near_lib">
+            <!-- <form action="lib_search.php"> -->
 
-            <div class="btn near_lib">
-                <!-- <form action="lib_search.php"> -->
+            <p>現在使用不可</p><label for="city">市町村:</label>
+            <input type="text" id="city" name="city" value="山口市">
+            <button id="lib_btn" class="search">図書館検索</button>
 
-                <p>現在使用不可</p><label for="city">市町村:</label>
-                <input type="text" id="city" name="city" value="山口市">
-                <button id="lib_btn" class="search">図書館検索</button>
+            <!-- <p>近くの図書館</p> -->
+            <div id="libraryInfo"></div>
 
-                <!-- <p>近くの図書館</p> -->
-             	<div id="libraryInfo"></div>
+            <div id="booksInfo"></div>
 
-	            <div id="booksInfo"></div>
+            <div><a href="https://calil.jp/" target="_blank">近くの図書館で探す</a></div>
 
-                <div><a href="https://calil.jp/" target="_blank">近くの図書館で探す</a></div>
+            <!-- </form> -->
 
-                <!-- </form> -->
-
-            </div>
+        </div>
 
         </form>
 
@@ -131,7 +123,7 @@ axios.get(url)
 // 今は山口市の図書館検索
 function loadLibraryData() {
   const libUrl =
-  "https://api.calil.jp/library?appkey={}&pref=山口県&city=山口市&limit=10&format=json";
+  "https://api.calil.jp/library?appkey={8b7e2d73901869e2355f16a7b1a46434}&pref=山口県&city=山口市&limit=10&format=json";
 
    console.log(libUrl);
 
@@ -172,7 +164,7 @@ $("#lib_btn").on('click',function(){
 <script>
 // 蔵書検索機能
 function searchBooks(libraryId) {
-  let appKey = "";
+  let appKey = "da280c479ff3323463183ff2c51aa5f5";
   let isbn = "9784163741008"; // ファクトフルネスのISBN
 
   let booksUrl = `https://api.calil.jp/check?appkey=${appKey}&isbn=${isbn}&systemid=${libraryId}&format=json`;
@@ -212,7 +204,7 @@ function displayBooks(libraryName, books) {
 
 // 蔵書検索
     const libUrl2 =
-        "http://api.calil.jp/check?appkey={5}&isbn=4834000826&systemid=Aomori_Pref&format=json";
+        "http://api.calil.jp/check?appkey={da280c479ff3323463183ff2c51aa5f5}&isbn=4834000826&systemid=Aomori_Pref&format=json";
 
 </script>
 

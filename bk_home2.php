@@ -1,88 +1,171 @@
 <?php
-
 include('_header.php');
 
-?>
-<?php
+include('_head.php');
 
-include('i.php');
-
+include('_username.php');
 ?>
 
 <main>
-        <p>GOOGLE BOOKS での検索（とりあえず）</p>
-
-
+  <p>GOOGLE BOOKS での検索（とりあえず）</p>
 
 <?php
 // 本の検索のフォーム
 include('_search.php');
 ?>
+    <div class="btn near_lib">
+        <!-- <form action="lib_search.php"> -->
 
+        <input type="text" id="city" name="city" value="山口市">
 
-            <div class="btn near_lib">
-                <!-- <form action="lib_search.php"> -->
+        <button id="lib_btn" class="search">図書館検索</button>
 
-                <p>現在使用不可</p><label for="city">市町村:</label>
-                <input type="text" id="city" name="city" value="山口市">
-                <button id="lib_btn" class="search">図書館検索</button>
+        <!-- <p>近くの図書館</p> -->
+      <div id="libraryInfo"></div>
 
-                <!-- <p>近くの図書館</p> -->
-             	<div id="libraryInfo"></div>
+      <div id="booksInfo"></div>
 
-	            <div id="booksInfo"></div>
+        <div><a href="https://calil.jp/" target="_blank">近くの図書館で探す</a></div>
 
-                <div><a href="https://calil.jp/" target="_blank">近くの図書館で探す</a></div>
+        <!-- </form> -->
 
-                <!-- </form> -->
+    </div>
 
-            </div>
-
-        </form>
+</form>
 
 <!-- 検索した結果がここに出るようにする -->
-<section id="output"></section>
+<section ></section>
 
-<div class="bg-white py-24 sm:py-32">
-  <div class="mx-auto max-w-7xl px-6 lg:px-8">
-    <div class="mx-auto max-w-2xl lg:mx-0">
-      <h2 class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">From the blog</h2>
-      <p class="mt-2 text-lg leading-8 text-gray-600">Learn how to grow your business with our expert advice.</p>
-    </div>
-    <div class="mx-auto mt-10 grid max-w-2xl grid-cols-1 gap-x-8 gap-y-16 border-t border-gray-200 pt-10 sm:mt-16 sm:pt-16 lg:mx-0 lg:max-w-none lg:grid-cols-3">
-      <article class="flex max-w-xl flex-col items-start justify-between">
-        <div class="flex items-center gap-x-4 text-xs">
-          <time datetime="2020-03-16" class="text-gray-500">Mar 16, 2020</time>
-          <a href="#" class="relative z-10 rounded-full bg-gray-50 px-3 py-1.5 font-medium text-gray-600 hover:bg-gray-100">Marketing</a>
-        </div>
-        <div class="group relative">
-          <h3 class="mt-3 text-lg font-semibold leading-6 text-gray-900 group-hover:text-gray-600">
-            <a href="#">
-              <span class="absolute inset-0"></span>
-              Boost your conversion rate
-            </a>
-          </h3>
-          <p class="mt-5 line-clamp-3 text-sm leading-6 text-gray-600">Illo sint voluptas. Error voluptates culpa eligendi. Hic vel totam vitae illo. Non aliquid explicabo necessitatibus unde. Sed exercitationem placeat consectetur nulla deserunt vel. Iusto corrupti dicta.</p>
-        </div>
-        <div class="relative mt-8 flex items-center gap-x-4">
-          <img src="https://images.unsplash.com/photo-1519244703995-f4e0f30006d5?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="" class="h-10 w-10 rounded-full bg-gray-50">
-          <div class="text-sm leading-6">
-            <p class="font-semibold text-gray-900">
-              <a href="#">
-                <span class="absolute inset-0"></span>
-                Michael Foster
-              </a>
-            </p>
-            <p class="text-gray-600">Co-Founder / CTO</p>
-          </div>
-        </div>
-      </article>
 
-      <!-- More posts... -->
+<div class="bg-white">
+  <div class="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
+    <h2 class="sr-only">Products</h2>
+
+    <div id="output" class="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8">
+
+      <!-- <a href="${response.data.items[i].volumeInfo.infoLink}" class="group">
+        <div class="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-lg bg-gray-200 xl:aspect-h-8 xl:aspect-w-7">
+          <img src="${response.data.items[i].volumeInfo.imageLinks.smallThumbnail}" alt="Tall slender porcelain bottle with natural clay textured body and cork stopper." class="h-full w-full object-cover object-center group-hover:opacity-75">
+        </div>
+        <h3 class="mt-4 text-sm text-gray-700">${response.data.items[i].volumeInfo.title}</h3>
+        <h3 class="mt-4 text-sm text-gray-700">著者</h3>
+        <p class="mt-1 text-lg font-medium text-gray-900">
+      ${truncateText(response.data.items[i].volumeInfo.description,120)}</p>
+      </a> -->
+
+
+      <!-- More products... -->
     </div>
   </div>
 </div>
 
+
+<div x-data="{
+        imageGalleryOpened: false,
+        imageGalleryActiveUrl: null,
+        imageGalleryImageIndex: null,
+        imageGalleryOpen(event) {
+            this.imageGalleryImageIndex = event.target.dataset.index;
+            this.imageGalleryActiveUrl = event.target.src;
+            this.imageGalleryOpened = true;
+        },
+        imageGalleryClose() {
+            this.imageGalleryOpened = false;
+            setTimeout(() => this.imageGalleryActiveUrl = null, 300);
+        },
+        imageGalleryNext(){
+            if(this.imageGalleryImageIndex == this.$refs.gallery.childElementCount){
+                this.imageGalleryImageIndex = 1;
+            } else {
+                this.imageGalleryImageIndex = parseInt(this.imageGalleryImageIndex) + 1;
+            }
+            this.imageGalleryActiveUrl = this.$refs.gallery.querySelector('[data-index=\'' + this.imageGalleryImageIndex + '\']').src;
+        },
+        imageGalleryPrev() {
+            if(this.imageGalleryImageIndex == 1){
+                this.imageGalleryImageIndex = this.$refs.gallery.childElementCount;
+            } else {
+                this.imageGalleryImageIndex = parseInt(this.imageGalleryImageIndex) - 1;
+            }
+
+            this.imageGalleryActiveUrl = this.$refs.gallery.querySelector('[data-index=\'' + this.imageGalleryImageIndex + '\']').src;
+            
+        }
+    }" 
+    @image-gallery-next.window="imageGalleryNext()" 
+    @image-gallery-prev.window="imageGalleryPrev()" 
+    @keyup.right.window="imageGalleryNext();" 
+    @keyup.left.window="imageGalleryPrev();"
+    x-init="
+        imageGalleryPhotos = $refs.gallery.querySelectorAll('img');
+        for(let i=0; i<imageGalleryPhotos.length; i++){
+            imageGalleryPhotos[i].setAttribute('data-index', i+1);
+        }
+    " 
+    class="w-full h-full select-none">
+    <div class="max-w-6xl mx-auto duration-1000 delay-300 opacity-0 select-none ease animate-fade-in-view" style="translate: none; rotate: none; scale: none; opacity: 1; transform: translate(0px, 0px);">
+        <ul x-ref="gallery" id="gallery" class="grid grid-cols-2 gap-5 lg:grid-cols-5">
+            <li><img x-on:click="imageGalleryOpen" src="https://cdn.devdojo.com/images/june2023/mountains-01.jpeg" class="object-cover select-none w-full h-auto bg-gray-200 rounded cursor-zoom-in aspect-[5/6] lg:aspect-[2/3] xl:aspect-[3/4]" alt="photo gallery image 01"></li>
+            <li><img x-on:click="imageGalleryOpen" src="https://cdn.devdojo.com/images/june2023/mountains-02.jpeg" class="object-cover select-none w-full h-auto bg-gray-200 rounded cursor-zoom-in aspect-[5/6] lg:aspect-[2/3] xl:aspect-[3/4]" alt="photo gallery image 02"></li>
+            <li><img x-on:click="imageGalleryOpen" src="https://cdn.devdojo.com/images/june2023/mountains-03.jpeg" class="object-cover select-none w-full h-auto bg-gray-200 rounded cursor-zoom-in aspect-[5/6] lg:aspect-[2/3] xl:aspect-[3/4]" alt="photo gallery image 03"></li>
+            <li><img x-on:click="imageGalleryOpen" src="https://cdn.devdojo.com/images/june2023/mountains-04.jpeg" class="object-cover select-none w-full h-auto bg-gray-200 rounded cursor-zoom-in aspect-[5/6] lg:aspect-[2/3] xl:aspect-[3/4]" alt="photo gallery image 04"></li>
+            <li><img x-on:click="imageGalleryOpen" src="https://cdn.devdojo.com/images/june2023/mountains-05.jpeg" class="object-cover select-none w-full h-auto bg-gray-200 rounded cursor-zoom-in aspect-[5/6] lg:aspect-[2/3] xl:aspect-[3/4]" alt="photo gallery image 05"></li>
+            <li><img x-on:click="imageGalleryOpen" src="https://cdn.devdojo.com/images/june2023/mountains-06.jpeg" class="object-cover select-none w-full h-auto bg-gray-200 rounded cursor-zoom-in aspect-[5/6] lg:aspect-[2/3] xl:aspect-[3/4]" alt="photo gallery image 06"></li>
+            <li><img x-on:click="imageGalleryOpen" src="https://cdn.devdojo.com/images/june2023/mountains-07.jpeg" class="object-cover select-none w-full h-auto bg-gray-200 rounded cursor-zoom-in aspect-[5/6] lg:aspect-[2/3] xl:aspect-[3/4]" alt="photo gallery image 07"></li>
+            <li><img x-on:click="imageGalleryOpen" src="https://cdn.devdojo.com/images/june2023/mountains-08.jpeg" class="object-cover select-none w-full h-auto bg-gray-200 rounded cursor-zoom-in aspect-[5/6] lg:aspect-[2/3] xl:aspect-[3/4]" alt="photo gallery image 08"></li>
+            <li><img x-on:click="imageGalleryOpen" src="https://cdn.devdojo.com/images/june2023/mountains-09.jpeg" class="object-cover select-none w-full h-auto bg-gray-200 rounded cursor-zoom-in aspect-[5/6] lg:aspect-[2/3] xl:aspect-[3/4]" alt="photo gallery image 09"></li>
+            <li><img x-on:click="imageGalleryOpen" src="https://cdn.devdojo.com/images/june2023/mountains-10.jpeg" class="object-cover select-none w-full h-auto bg-gray-200 rounded cursor-zoom-in aspect-[5/6] lg:aspect-[2/3] xl:aspect-[3/4]" alt="photo gallery image 10"></li>
+        </ul>
+    </div>
+    <template x-teleport="body">
+        <div 
+            x-show="imageGalleryOpened" 
+            x-transition:enter="transition ease-in-out duration-300" 
+            x-transition:enter-start="opacity-0" 
+            x-transition:leave="transition ease-in-in duration-300" 
+            x-transition:leave-end="opacity-0" 
+            @click="imageGalleryClose" 
+            @keydown.window.escape="imageGalleryClose" 
+            x-trap.inert.noscroll="imageGalleryOpened"
+            class="fixed inset-0 z-[99] flex items-center justify-center bg-black bg-opacity-50 select-none cursor-zoom-out" x-cloak>
+            <div class="relative flex items-center justify-center w-11/12 xl:w-4/5 h-11/12"> 
+                <div @click="$event.stopPropagation(); $dispatch('image-gallery-prev')" class="absolute left-0 flex items-center justify-center text-white translate-x-10 rounded-full cursor-pointer xl:-translate-x-24 2xl:-translate-x-32 bg-white/10 w-14 h-14 hover:bg-white/20">
+                    <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" /></svg>
+                </div>
+                <img 
+                    x-show="imageGalleryOpened" 
+                    x-transition:enter="transition ease-in-out duration-300" 
+                    x-transition:enter-start="opacity-0 transform scale-50" 
+                    x-transition:leave="transition ease-in-in duration-300" 
+                    x-transition:leave-end="opacity-0 transform scale-50" 
+                    class="object-contain object-center w-full h-full select-none cursor-zoom-out" :src="imageGalleryActiveUrl" alt="" style="display: none;">
+                <div @click="$event.stopPropagation(); $dispatch('image-gallery-next');" class="absolute right-0 flex items-center justify-center text-white -translate-x-10 rounded-full cursor-pointer xl:translate-x-24 2xl:translate-x-32 bg-white/10 w-14 h-14 hover:bg-white/20">
+                    <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" /></svg>
+                </div>
+            </div>
+        </div>
+    </template>
+</div>
+<!-- <div>
+            <section class="result">
+                <div class="img">
+                <img src="${response.data.items[i].volumeInfo.imageLinks.smallThumbnail}">
+                </div>
+                <div class="title">
+                    <p>${response.data.items[i].volumeInfo.title}</p>
+                </div>
+                <div class="description">
+                    <p>${truncateText(response.data.items[i].volumeInfo.description,120)}</p>
+                </div>
+                <div class="author">
+                    <p>${response.data.items[i].volumeInfo.authors}</p>
+                </div>
+                <div class="link">
+                    <a href="${response.data.items[i].volumeInfo.infoLink}">
+                    <p>詳細</p>
+                </div>
+                </section>
+        </div> -->
 
 </main>
 
@@ -127,30 +210,49 @@ axios.get(url)
         console.log(response.data.items[1].volumeInfo.imageLinks.smallThumbnail);
         console.log(response.data.items[1].volumeInfo.pageCount);
 
+
+        // 配列を作る
         const array =[];
         for(let i = 0; i<response.data.items.length; i++){
 
-        array.push(
-            `<div>
-            <section class="result">
-                <div class="img">
-                <img src="${response.data.items[i].volumeInfo.imageLinks.smallThumbnail}">
-                </div>
-                <div class="title">
-                    <p>${response.data.items[i].volumeInfo.title}</p>
-                </div>
-                <div class="description">
-                    <p>${truncateText(response.data.items[i].volumeInfo.description,120)}</p>
-                </div>
-                <div class="author">
-                    <p>${response.data.items[i].volumeInfo.authors}</p>
-                </div>
-                <div class="link">
-                    <a href="${response.data.items[i].volumeInfo.infoLink}">
-                    <p>詳細</p>
-                </div>
-                </section>
-        </div>`);
+        // 配列に入れる
+        array.push(`
+
+        <a href="${response.data.items[i].volumeInfo.infoLink}" class="group">
+        <div class="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-lg bg-gray-200 xl:aspect-h-8 xl:aspect-w-7">
+          <img src="${response.data.items[i].volumeInfo.imageLinks.smallThumbnail}" alt="Tall slender porcelain bottle with natural clay textured body and cork stopper." class="h-full w-full object-cover object-center group-hover:opacity-75">
+        </div>
+        <h3 class="mt-4 text-sm text-gray-700">${response.data.items[i].volumeInfo.title}</h3>
+        <h3 class="mt-4 text-sm text-gray-700">${response.data.items[i].volumeInfo.authors}</h3>
+        <p class="mt-1 text-lg font-medium text-gray-900">
+      ${truncateText(response.data.items[i].volumeInfo.description,120)}</p>
+      </a>
+
+        `);
+//         array.push(`
+// <div class="flex flex-col overflow-hidden bg-white rounded shadow-md sm:flex-row text-slate-500 shadow-slate-200">
+// <!-- Image -->
+//   <figure class="flex-1">
+//       <a href="${response.data.items[i].volumeInfo.infoLink}" target="_blank" > <img src="${response.data.items[i].volumeInfo.imageLinks.smallThumbnail}" alt="card image"  class="object-cover min-h-full aspect-auto"/>
+//       </a>
+//   </figure>
+//   <!-- Body-->
+//   <div class="flex-1 p-6 sm:mx-6 sm:px-0">
+//     <div class="flex gap-4 mb-4">
+
+//       <div>
+//         <h3 class="text-xl font-medium text-slate-700">${response.data.items[i].volumeInfo.title}</h3>
+//       </div>
+
+//     </div>
+//     <p>
+//       ${truncateText(response.data.items[i].volumeInfo.description,120)}
+//     </p>
+//   </div>
+// </div>
+// <!-- End Horizontal card-->
+
+//         `);
             $("#output").html(array);
         };
 
@@ -168,6 +270,11 @@ axios.get(url)
 
 
 
+
+
+
+
+
 //  =======================================
 // 検索　　カーリルAPI
 // =========================================
@@ -175,7 +282,7 @@ axios.get(url)
 // 今は山口市の図書館検索
 function loadLibraryData() {
   const libUrl =
-  "https://api.calil.jp/library?appkey={}&pref=山口県&city=山口市&limit=10&format=json";
+  "https://api.calil.jp/library?appkey={8b7e2d73901869e2355f16a7b1a46434}&pref=山口県&city=山口市&limit=10&format=json";
 
    console.log(libUrl);
 
@@ -210,13 +317,12 @@ $("#lib_btn").on('click',function(){
         `;
 		}
 });
-
 </script>
 
 <script>
 // 蔵書検索機能
 function searchBooks(libraryId) {
-  let appKey = "";
+  let appKey = "da280c479ff3323463183ff2c51aa5f5";
   let isbn = "9784163741008"; // ファクトフルネスのISBN
 
   let booksUrl = `https://api.calil.jp/check?appkey=${appKey}&isbn=${isbn}&systemid=${libraryId}&format=json`;
@@ -256,11 +362,10 @@ function displayBooks(libraryName, books) {
 
 // 蔵書検索
     const libUrl2 =
-        "http://api.calil.jp/check?appkey={}&isbn=4834000826&systemid=Aomori_Pref&format=json";
+        "http://api.calil.jp/check?appkey={da280c479ff3323463183ff2c51aa5f5}&isbn=4834000826&systemid=Aomori_Pref&format=json";
 
 </script>
-
+<!-- -------------------------------- -->
 
 <?php
-
 include('_footer.php');

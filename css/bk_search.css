@@ -1,4 +1,4 @@
-main {
+/* main {
     margin: 0 auto;
 }
 
@@ -29,7 +29,7 @@ h1 {
 
 /* ーーーーーーーーーーーーーーーー */
 /* 検索の結果が出るところのUI */
-.result {
+/* .result {
     display: flex;
     width: 90%;
     margin: 0 auto;
@@ -58,5 +58,4 @@ h1 {
 
 .link {
     width: 10%;
-}
-
+} */

@@ -57,7 +57,7 @@
         <svg class="absolute right-0 w-5 h-5 mr-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" d="M8.25 15L12 18.75 15.75 15m-7.5-6L12 5.25 15.75 9" /></svg>
     </button>
 
-    <div x-show="dropdownOpen"
+    <!-- <div x-show="dropdownOpen"
         @click.away="dropdownOpen=false"
         x-transition:enter="ease-out duration-200"
         x-transition:enter-start="-translate-y-2"
@@ -141,23 +141,22 @@
                 <span class="ml-auto text-xs tracking-widest opacity-60">⇧⌘Q</span>
             </a>
         </div>
-    </div>
+    </div> -->
 </div>
+            <a href="login/logout.php" class="inline-flex items-center justify-center px-4 py-2 text-base font-medium leading-6 text-gray-600 whitespace-no-wrap bg-white border border-gray-200 rounded-md shadow-sm hover:bg-gray-50 focus:outline-none focus:shadow-none" data-rounded="rounded-md">
+                ログアウト
+            </a>
 
-
-
-
-
-
-            <a href="login/login_form.php" class="inline-flex items-center justify-center px-4 py-2 text-base font-medium leading-6 text-gray-600 whitespace-no-wrap bg-white border border-gray-200 rounded-md shadow-sm hover:bg-gray-50 focus:outline-none focus:shadow-none" data-rounded="rounded-md">
-                Sign in
+            <!-- <a href="login/login_form.php" class="inline-flex items-center justify-center px-4 py-2 text-base font-medium leading-6 text-gray-600 whitespace-no-wrap bg-white border border-gray-200 rounded-md shadow-sm hover:bg-gray-50 focus:outline-none focus:shadow-none" data-rounded="rounded-md">
+                サインイン
             </a>
 
             <span class="inline-flex rounded-md shadow-sm">
                 <a href="login/signup.php" class="inline-flex items-center justify-center px-4 py-2 text-base font-medium leading-6 text-white whitespace-no-wrap bg-blue-600 border border-blue-700 rounded-md shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" data-rounded="rounded-md" data-primary="blue-600">
-                    Sign up
-                </a>
+                    サインアップ
+                </a> -->
             </span>
+
         </div>
 
     </div>

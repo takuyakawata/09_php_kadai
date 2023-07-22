@@ -1,13 +1,15 @@
 <?php
+// -------------------------
+session_start();
+include('_functions.php');
+check_session_id();
+// -------------------------
+include('_head.php');
 include('_header.php');
 
-include('_head.php');
-
-include('_username.php');
 ?>
-
 <main>
-  <p>GOOGLE BOOKS での検索（とりあえず）</p>
+  <p>GOOGLE BOOKS で検索</p>
 
 <?php
 // 本の検索のフォーム
@@ -15,17 +17,25 @@ include('_search.php');
 ?>
     <div class="btn near_lib">
         <!-- <form action="lib_search.php"> -->
+    <div class="flex justify-center">
+    <div class="flex w-full max-w-xs mx-auto">
+        <input type="text" id="city" name="city" value="山口市" id="keyword"placeholder="山口市" class="flex w-full h-10 px-3 py-2 text-sm bg-white border rounded-md border-neutral-300 ring-offset-background placeholder:text-neutral-500 focus:border-neutral-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-neutral-400 disabled:cursor-not-allowed disabled:opacity-50" />
 
-        <input type="text" id="city" name="city" value="山口市">
-
-        <button id="lib_btn" class="search">図書館検索</button>
+        <button id="lib_btn" class="inline-flex items-center justify-center px-4 py-2 text-sm font-medium tracking-wide text-white transition-colors duration-200 rounded-md bg-neutral-950 hover:bg-neutral-900 focus:ring-2 focus:ring-offset-2 focus:ring-neutral-900 focus:shadow-outline focus:outline-none">図書館を探す</button>
+    </div>
+    </div>
 
         <!-- <p>近くの図書館</p> -->
-      <div id="libraryInfo"></div>
+        <div id="libraryInfo"></div>
 
-      <div id="booksInfo"></div>
+        <div id="booksInfo"></div>
 
-        <div><a href="https://calil.jp/" target="_blank">近くの図書館で探す</a></div>
+        <div class="flex justify-center">
+            <div>
+            <a href="https://calil.jp/" target="_blank"><button id="lib_btn" class=" mt-6 justify-center px-4 py-2 text-sm font-medium tracking-wide text-white transition-colors duration-200 rounded-md bg-neutral-950 hover:bg-neutral-900 focus:ring-2 focus:ring-offset-2 focus:ring-neutral-900 focus:shadow-outline focus:outline-none"> 近くの図書館で探す</button></a>
+            </div>
+        </div>
+
 
         <!-- </form> -->
 
@@ -59,7 +69,7 @@ include('_search.php');
   </div>
 </div>
 
-
+<!-- 検索した結果を表示する画面 -->
 <div x-data="{
         imageGalleryOpened: false,
         imageGalleryActiveUrl: null,
@@ -89,7 +99,6 @@ include('_search.php');
             }
 
             this.imageGalleryActiveUrl = this.$refs.gallery.querySelector('[data-index=\'' + this.imageGalleryImageIndex + '\']').src;
-            
         }
     }" 
     @image-gallery-next.window="imageGalleryNext()" 
@@ -104,8 +113,16 @@ include('_search.php');
     " 
     class="w-full h-full select-none">
     <div class="max-w-6xl mx-auto duration-1000 delay-300 opacity-0 select-none ease animate-fade-in-view" style="translate: none; rotate: none; scale: none; opacity: 1; transform: translate(0px, 0px);">
-        <ul x-ref="gallery" id="gallery" class="grid grid-cols-2 gap-5 lg:grid-cols-5">
-            <li><img x-on:click="imageGalleryOpen" src="https://cdn.devdojo.com/images/june2023/mountains-01.jpeg" class="object-cover select-none w-full h-auto bg-gray-200 rounded cursor-zoom-in aspect-[5/6] lg:aspect-[2/3] xl:aspect-[3/4]" alt="photo gallery image 01"></li>
+        <ul id="output" x-ref="gallery" id="gallery" class="grid grid-cols-2 gap-5 lg:grid-cols-5">
+
+            <!-- <li>
+                <img x-on:click="imageGalleryOpen"src="${response.data.items[i].volumeInfo.imageLinks.smallThumbnail}" class="object-cover select-none w-full h-auto bg-gray-200 rounded cursor-zoom-in aspect-[5/6] lg:aspect-[2/3] xl:aspect-[3/4]" alt="photo gallery image 01">
+                <h3 class="mt-4 text-sm text-gray-700">${response.data.items[i].volumeInfo.title}</h3>
+                <h3 class="mt-4 text-sm text-gray-700">${response.data.items[i].volumeInfo.authors}</h3>
+                <p class="mt-1 text-lg font-medium text-gray-900">
+                 ${truncateText(response.data.items[i].volumeInfo.description,120)}</p>
+           </li>
+
             <li><img x-on:click="imageGalleryOpen" src="https://cdn.devdojo.com/images/june2023/mountains-02.jpeg" class="object-cover select-none w-full h-auto bg-gray-200 rounded cursor-zoom-in aspect-[5/6] lg:aspect-[2/3] xl:aspect-[3/4]" alt="photo gallery image 02"></li>
             <li><img x-on:click="imageGalleryOpen" src="https://cdn.devdojo.com/images/june2023/mountains-03.jpeg" class="object-cover select-none w-full h-auto bg-gray-200 rounded cursor-zoom-in aspect-[5/6] lg:aspect-[2/3] xl:aspect-[3/4]" alt="photo gallery image 03"></li>
             <li><img x-on:click="imageGalleryOpen" src="https://cdn.devdojo.com/images/june2023/mountains-04.jpeg" class="object-cover select-none w-full h-auto bg-gray-200 rounded cursor-zoom-in aspect-[5/6] lg:aspect-[2/3] xl:aspect-[3/4]" alt="photo gallery image 04"></li>
@@ -114,9 +131,10 @@ include('_search.php');
             <li><img x-on:click="imageGalleryOpen" src="https://cdn.devdojo.com/images/june2023/mountains-07.jpeg" class="object-cover select-none w-full h-auto bg-gray-200 rounded cursor-zoom-in aspect-[5/6] lg:aspect-[2/3] xl:aspect-[3/4]" alt="photo gallery image 07"></li>
             <li><img x-on:click="imageGalleryOpen" src="https://cdn.devdojo.com/images/june2023/mountains-08.jpeg" class="object-cover select-none w-full h-auto bg-gray-200 rounded cursor-zoom-in aspect-[5/6] lg:aspect-[2/3] xl:aspect-[3/4]" alt="photo gallery image 08"></li>
             <li><img x-on:click="imageGalleryOpen" src="https://cdn.devdojo.com/images/june2023/mountains-09.jpeg" class="object-cover select-none w-full h-auto bg-gray-200 rounded cursor-zoom-in aspect-[5/6] lg:aspect-[2/3] xl:aspect-[3/4]" alt="photo gallery image 09"></li>
-            <li><img x-on:click="imageGalleryOpen" src="https://cdn.devdojo.com/images/june2023/mountains-10.jpeg" class="object-cover select-none w-full h-auto bg-gray-200 rounded cursor-zoom-in aspect-[5/6] lg:aspect-[2/3] xl:aspect-[3/4]" alt="photo gallery image 10"></li>
+            <li><img x-on:click="imageGalleryOpen" src="https://cdn.devdojo.com/images/june2023/mountains-10.jpeg" class="object-cover select-none w-full h-auto bg-gray-200 rounded cursor-zoom-in aspect-[5/6] lg:aspect-[2/3] xl:aspect-[3/4]" alt="photo gallery image 10"></li> -->
         </ul>
     </div>
+
     <template x-teleport="body">
         <div 
             x-show="imageGalleryOpened" 
@@ -218,15 +236,14 @@ axios.get(url)
         // 配列に入れる
         array.push(`
 
-        <a href="${response.data.items[i].volumeInfo.infoLink}" class="group">
-        <div class="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-lg bg-gray-200 xl:aspect-h-8 xl:aspect-w-7">
-          <img src="${response.data.items[i].volumeInfo.imageLinks.smallThumbnail}" alt="Tall slender porcelain bottle with natural clay textured body and cork stopper." class="h-full w-full object-cover object-center group-hover:opacity-75">
-        </div>
-        <h3 class="mt-4 text-sm text-gray-700">${response.data.items[i].volumeInfo.title}</h3>
-        <h3 class="mt-4 text-sm text-gray-700">${response.data.items[i].volumeInfo.authors}</h3>
-        <p class="mt-1 text-lg font-medium text-gray-900">
-      ${truncateText(response.data.items[i].volumeInfo.description,120)}</p>
-      </a>
+        <li>
+                <img x-on:click="imageGalleryOpen"src="${response.data.items[i].volumeInfo.imageLinks.smallThumbnail}" class="object-cover select-none w-full h-auto bg-gray-200 rounded cursor-zoom-in aspect-[5/6] lg:aspect-[2/3] xl:aspect-[3/4]" alt="photo gallery image 01">
+                <h2 class="mt-4 text-sm text-gray-700">${response.data.items[i].volumeInfo.title}</h2>
+                <h3 class="mt-4 text-sm text-gray-700">${response.data.items[i].volumeInfo.authors}</h3>
+                <p class="mt-1 text-lg font-medium text-gray-900">
+                 ${truncateText(response.data.items[i].volumeInfo.description,120)}</p>
+           </li>
+
 
         `);
 //         array.push(`
@@ -253,7 +270,7 @@ axios.get(url)
 // <!-- End Horizontal card-->
 
 //         `);
-            $("#output").html(array);
+        $("#output").html(array);
         };
 
         console.log(array);
@@ -267,11 +284,6 @@ axios.get(url)
         // 成功失敗に関わらず必ず実行
         console.log("done!");
     });
-
-
-
-
-
 
 
 

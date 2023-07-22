@@ -1,10 +1,10 @@
 <?php
 include('_head.php');
 include('_header.php');
-include('_username.php');
+// include('_username.php');
 ?>
+
 </header>
-<div>sns_read</div>
 <!-- Card Blog -->
 <div class="max-w-[85rem]  py-10 sm:px-6 lg:px-8 lg:py-14 mx-auto">
   <!-- Title -->

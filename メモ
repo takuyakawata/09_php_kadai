@@ -1,0 +1,1 @@
+; $sql = 'SELECT * FROM books_list'ここを$user_id = $_SESSION['user_id'];のuser_idとbooks_listの中の同じuser_idのみ獲得するようにしたい

@@ -3,22 +3,22 @@
         <nav class="flex flex-wrap justify-center -mx-5 -my-2">
             <div class="px-5 py-2">
                 <a href="#" class="text-base leading-6 text-gray-500 hover:text-gray-900">
-                    About
+                    home
                 </a>
             </div>
             <div class="px-5 py-2">
                 <a href="#" class="text-base leading-6 text-gray-500 hover:text-gray-900">
-                    Blog
+                    本棚
                 </a>
             </div>
             <div class="px-5 py-2">
                 <a href="#" class="text-base leading-6 text-gray-500 hover:text-gray-900">
-                    Team
+                    MyPage
                 </a>
             </div>
             <div class="px-5 py-2">
                 <a href="#" class="text-base leading-6 text-gray-500 hover:text-gray-900">
-                    Pricing
+                    link
                 </a>
             </div>
             <div class="px-5 py-2">
@@ -28,7 +28,7 @@
             </div>
             <div class="px-5 py-2">
                 <a href="#" class="text-base leading-6 text-gray-500 hover:text-gray-900">
-                    Terms
+                    option
                 </a>
             </div>
         </nav>

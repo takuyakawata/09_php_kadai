@@ -1,7 +1,7 @@
 <?php
-session_start();
-include("_functions.php");
-check_session_id();
+
+include('_head.php');
+include('_header.php');
 
 $pdo = connect_to_db();
 
@@ -9,12 +9,11 @@ $user_id = $_SESSION['user_id'];
 // var_dump($user_id);
 // exit();
 
-$sql = 'SELECT * FROM books_list LEFT OUTER JOIN (SELECT  list_id, COUNT(id)AS
- books_list FROM books_users GROUP BY list_id)
-
-AS users_list ON books_list.id = result_table.todo_id';
+//対象のユーザーのみ表示することができるようにする
+$sql = 'SELECT * FROM books_list WHERE user_id = :user_id';
 
 $stmt = $pdo->prepare($sql);
+$stmt->bindParam(':user_id', $user_id);
 
 try {
   $status = $stmt->execute();
@@ -26,22 +25,26 @@ try {
 $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
 $output = "";
 
+
 foreach ($result as $record) {
   $output .= "
-    <tr>
-      <td>{$record[""]}</td>
-      <td>{$record[""]}</td>
+    <li class=\"my-9\">
+        <img x-on:click=\"imageGalleryOpen\" src=\"\" class=\"object-cover select-none w-full h-auto bg-gray-200 rounded cursor-zoom-in aspect-[5/6] lg:aspect-[2/3] xl:aspect-[3/4]\" alt=\"photo gallery image 01\">
 
-      <td><a href='like_create.php?user_id={$user_id}&_id={$record["id"]}'>like{$record["like_count"]}</a></td>
+        <h2 class=\"mt-4 text-sm text-gray-700\">{$record["title"]}</h2>
 
-      <td><a href='bk_mypage_stand_edit.php?id={$record["id"]}'>edit</a></td>
+        <h3 class=\"mt-4 text-sm text-gray-700\">{$record["author"]}</h3>
 
-      <td><a href='bk_mypage_stand_delete.php?id={$record["id"]}'>delete</a></td>
-      
-    </tr>
+        <td>
+        <a href='bk_mypage_stand_edit.php?id={$record["id"]}'  class=\"mt-4 text-xs text-gray-500\">訂正</a>
+      </td>
+      <td>
+         <a href='bk_mypage_stand_delete.php?id={$record["id"]}' class=\"mt-4 text-xs text-gray-500\">削除</a>
+      </td>
+    </li>
   ";
 }
-
+  //  <td><a href='like_create.php?user_id={$user_id}&_id={$record["id"]}'>like{$record["like_count"]}</a></td>
 ?>
 
 <!DOCTYPE html>
@@ -50,28 +53,194 @@ foreach ($result as $record) {
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>DB連携型本棚read（一覧画面）</title>
+  <title>本棚（一覧画面）</title>
 </head>
 
 <body>
-  <fieldset>
-    <legend>DB連携型本棚read（一覧画面）</legend>
-    <a href="todo_input.php">入力画面</a>
-    <a href="todo_logout.php">logout</a>
-    <table>
-      <thead>
-        <tr>
-          <th>deadline</th>
-          <th>todo</th>
-          <th></th>
-          <th></th>
-        </tr>
-      </thead>
-      <tbody>
+ 
+<div class="ml-5">
+    <legend>私の本棚</legend>
+    <!-- Component: Base outline elevated button -->
+    <a href="bk_mypage_stand_input.php">
+        <button class="inline-flex items-center justify-center h-10 gap-2 px-5 text-sm font-medium tracking-wide transition duration-300 border rounded shadow-md focus-visible:outline-none whitespace-nowrap border-gray-500 text-gray-500 shadow-gray-200 hover:border-gray-600 hover:text-gray-600 focus:border-gray-700 focus:text-gray-700 hover:shadow-sm hover:shadow-gray-200 focus:shadow-sm focus:shadow-gray-200 disabled:cursor-not-allowed disabled:border-gray-300 disabled:text-gray-300 disabled:shadow-none">
+        <span>本棚に登録</span>
+        </button>
+    </a>
+</div>
+
+<!-- End Base outline elevated button -->
+    
+    
+
+
+<!-- 検索した結果を表示する画面 -->
+<div x-data="{
+        imageGalleryOpened: false,
+        imageGalleryActiveUrl: null,
+        imageGalleryImageIndex: null,
+        imageGalleryOpen(event) {
+            this.imageGalleryImageIndex = event.target.dataset.index;
+            this.imageGalleryActiveUrl = event.target.src;
+            this.imageGalleryOpened = true;
+        },
+        imageGalleryClose() {
+            this.imageGalleryOpened = false;
+            setTimeout(() => this.imageGalleryActiveUrl = null, 300);
+        },
+        imageGalleryNext(){
+            if(this.imageGalleryImageIndex == this.$refs.gallery.childElementCount){
+                this.imageGalleryImageIndex = 1;
+            } else {
+                this.imageGalleryImageIndex = parseInt(this.imageGalleryImageIndex) + 1;
+            }
+            this.imageGalleryActiveUrl = this.$refs.gallery.querySelector('[data-index=\'' + this.imageGalleryImageIndex + '\']').src;
+        },
+        imageGalleryPrev() {
+            if(this.imageGalleryImageIndex == 1){
+                this.imageGalleryImageIndex = this.$refs.gallery.childElementCount;
+            } else {
+                this.imageGalleryImageIndex = parseInt(this.imageGalleryImageIndex) - 1;
+            }
+
+            this.imageGalleryActiveUrl = this.$refs.gallery.querySelector('[data-index=\'' + this.imageGalleryImageIndex + '\']').src;
+        }
+    }"
+    @image-gallery-next.window="imageGalleryNext()"
+    @image-gallery-prev.window="imageGalleryPrev()"
+    @keyup.right.window="imageGalleryNext();"
+    @keyup.left.window="imageGalleryPrev();"
+    x-init="
+        imageGalleryPhotos = $refs.gallery.querySelectorAll('img');
+        for(let i=0; i<imageGalleryPhotos.length; i++){
+            imageGalleryPhotos[i].setAttribute('data-index', i+1);
+        }
+    "
+    class="w-full h-full select-none">
+    <div class="max-w-6xl mx-auto duration-1000 delay-300 opacity-0 select-none ease animate-fade-in-view" style="translate: none; rotate: none; scale: none; opacity: 1; transform: translate(0px, 0px);">
+        <ul id="output" x-ref="gallery" id="gallery" class="grid grid-cols-2 gap-10 lg:grid-cols-5">
+
         <?= $output ?>
-      </tbody>
-    </table>
-  </fieldset>
+
+            <!-- <li>
+                <img x-on:click="imageGalleryOpen"src="${response.data.items[i].volumeInfo.imageLinks.smallThumbnail}" class="object-cover select-none w-full h-auto bg-gray-200 rounded cursor-zoom-in aspect-[5/6] lg:aspect-[2/3] xl:aspect-[3/4]" alt="photo gallery image 01">
+                <h3 class="mt-4 text-sm text-gray-700">${response.data.items[i].volumeInfo.title}</h3>
+                <h3 class="mt-4 text-sm text-gray-700">${response.data.items[i].volumeInfo.authors}</h3>
+                <p class="mt-1 text-lg font-medium text-gray-900">
+                ${truncateText(response.data.items[i].volumeInfo.description,120)}</p>
+          </li>
+
+            <li><img x-on:click="imageGalleryOpen" src="https://cdn.devdojo.com/images/june2023/mountains-02.jpeg" class="object-cover select-none w-full h-auto bg-gray-200 rounded cursor-zoom-in aspect-[5/6] lg:aspect-[2/3] xl:aspect-[3/4]" alt="photo gallery image 02"></li>
+            <li><img x-on:click="imageGalleryOpen" src="https://cdn.devdojo.com/images/june2023/mountains-03.jpeg" class="object-cover select-none w-full h-auto bg-gray-200 rounded cursor-zoom-in aspect-[5/6] lg:aspect-[2/3] xl:aspect-[3/4]" alt="photo gallery image 03"></li>
+            <li><img x-on:click="imageGalleryOpen" src="https://cdn.devdojo.com/images/june2023/mountains-04.jpeg" class="object-cover select-none w-full h-auto bg-gray-200 rounded cursor-zoom-in aspect-[5/6] lg:aspect-[2/3] xl:aspect-[3/4]" alt="photo gallery image 04"></li>
+            <li><img x-on:click="imageGalleryOpen" src="https://cdn.devdojo.com/images/june2023/mountains-05.jpeg" class="object-cover select-none w-full h-auto bg-gray-200 rounded cursor-zoom-in aspect-[5/6] lg:aspect-[2/3] xl:aspect-[3/4]" alt="photo gallery image 05"></li>
+            <li><img x-on:click="imageGalleryOpen" src="https://cdn.devdojo.com/images/june2023/mountains-06.jpeg" class="object-cover select-none w-full h-auto bg-gray-200 rounded cursor-zoom-in aspect-[5/6] lg:aspect-[2/3] xl:aspect-[3/4]" alt="photo gallery image 06"></li>
+            <li><img x-on:click="imageGalleryOpen" src="https://cdn.devdojo.com/images/june2023/mountains-07.jpeg" class="object-cover select-none w-full h-auto bg-gray-200 rounded cursor-zoom-in aspect-[5/6] lg:aspect-[2/3] xl:aspect-[3/4]" alt="photo gallery image 07"></li>
+            <li><img x-on:click="imageGalleryOpen" src="https://cdn.devdojo.com/images/june2023/mountains-08.jpeg" class="object-cover select-none w-full h-auto bg-gray-200 rounded cursor-zoom-in aspect-[5/6] lg:aspect-[2/3] xl:aspect-[3/4]" alt="photo gallery image 08"></li>
+            <li><img x-on:click="imageGalleryOpen" src="https://cdn.devdojo.com/images/june2023/mountains-09.jpeg" class="object-cover select-none w-full h-auto bg-gray-200 rounded cursor-zoom-in aspect-[5/6] lg:aspect-[2/3] xl:aspect-[3/4]" alt="photo gallery image 09"></li>
+            <li><img x-on:click="imageGalleryOpen" src="https://cdn.devdojo.com/images/june2023/mountains-10.jpeg" class="object-cover select-none w-full h-auto bg-gray-200 rounded cursor-zoom-in aspect-[5/6] lg:aspect-[2/3] xl:aspect-[3/4]" alt="photo gallery image 10"></li> -->
+        </ul>
+
+    </div>
+
+    <template x-teleport="body">
+
+        <div
+            x-show="imageGalleryOpened"
+            x-transition:enter="transition ease-in-out duration-300"
+            x-transition:enter-start="opacity-0"
+            x-transition:leave="transition ease-in-in duration-300"
+            x-transition:leave-end="opacity-30"
+            @click="imageGalleryClose"
+            @keydown.window.escape="imageGalleryClose"
+            x-trap.inert.noscroll="imageGalleryOpened"
+            class="fixed inset-0 z-[99] flex items-center justify-center bg-black bg-opacity-50 select-none cursor-zoom-out" x-cloak>
+
+            <div class="relative flex items-center justify-center w-11/12 xl:w-4/5 h-11/12">
+                <div @click="$event.stopPropagation(); $dispatch('image-gallery-prev')" class="absolute left-0 flex items-center justify-center text-white translate-x-10 rounded-full cursor-pointer xl:-translate-x-24 2xl:-translate-x-32 bg-white/10 w-14 h-14 hover:bg-white/20">
+                    <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" /></svg>
+                </div>
+
+                <img
+                    x-show="imageGalleryOpened"
+                    x-transition:enter="transition ease-in-out duration-300"
+                    x-transition:enter-start="opacity-0 transform scale-50"
+                    x-transition:leave="transition ease-in-in duration-300"
+                    x-transition:leave-end="opacity-0 transform scale-50"
+                    class="object-contain object-center w-full h-full select-none cursor-zoom-out" :src="imageGalleryActiveUrl" alt="" style="display: none;">
+
+                <div @click="$event.stopPropagation(); $dispatch('image-gallery-next');" class="absolute right-0 flex items-center justify-center text-white -translate-x-10 rounded-full cursor-pointer xl:translate-x-24 2xl:translate-x-32 bg-white/10 w-14 h-14 hover:bg-white/20">
+                    <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" /></svg>
+                </div>
+
+            </div>
+        </div>
+    </template>
+
+  </div>
+
+
+<!-- ------------------------
+モーダルのパーツ
+------------------------ -->
+<div class="flex items-center justify-between w-full h-16 px-3 border-t border-neutral-200">
+    <p class="pl-2 text-sm text-gray-700">Showing <span class="font-medium">1</span> to <span class="font-medium">10</span> of <span class="font-medium">??</span> results</p>
+    <nav>
+        <ul class="flex items-center text-sm leading-tight bg-white border divide-x rounded h-9 text-neutral-500 divide-neutral-200 border-neutral-200">
+            <li class="h-full">
+                <a href="#" class="relative inline-flex items-center h-full px-3 ml-0 rounded-l group hover:text-neutral-900">
+                    <span>Previous</span>
+                </a>
+            </li>
+            <li class="hidden h-full md:block">
+                <a href="#" class="relative inline-flex items-center h-full px-3 text-neutral-900 group bg-gray-50">
+                    <span>1</span>
+                    <span class="box-content absolute bottom-0 left-0 w-full h-px -mx-px translate-y-px border-l border-r bg-neutral-900 border-neutral-900"></span>
+                </a>
+            </li>
+            <li class="hidden h-full md:block">
+                <a href="#" class="relative inline-flex items-center h-full px-3 group hover:text-neutral-900">
+                    <span>2</span>
+                    <span class="box-content absolute bottom-0 w-0 h-px -mx-px duration-200 ease-out translate-y-px border-transparent bg-neutral-900 group-hover:border-l group-hover:border-r group-hover:border-neutral-900 left-1/2 group-hover:left-0 group-hover:w-full"></span>
+                </a>
+            </li>
+            <li class="hidden h-full md:block">
+                <a href="#" class="relative inline-flex items-center h-full px-3 group hover:text-neutral-900">
+                    <span>3</span>
+                    <span class="box-content absolute bottom-0 w-0 h-px -mx-px duration-200 ease-out translate-y-px border-transparent bg-neutral-900 group-hover:border-l group-hover:border-r group-hover:border-neutral-900 left-1/2 group-hover:left-0 group-hover:w-full"></span>
+                </a>
+            </li>
+            <li class="hidden h-full md:block">
+                <div class="relative inline-flex items-center h-full px-2.5 group">
+                    <span>...</span>
+                </div>
+            </li>
+            <li class="hidden h-full md:block">
+                <a href="#" class="relative inline-flex items-center h-full px-3 group hover:text-neutral-900">
+                    <span>6</span>
+                    <span class="box-content absolute bottom-0 w-0 h-px -mx-px duration-200 ease-out translate-y-px border-transparent bg-neutral-900 group-hover:border-l group-hover:border-r group-hover:border-neutral-900 left-1/2 group-hover:left-0 group-hover:w-full"></span>
+                </a>
+            </li>
+            <li class="hidden h-full md:block">
+                <a href="#" class="relative inline-flex items-center h-full px-3 group hover:text-neutral-900">
+                    <span>7</span>
+                    <span class="box-content absolute bottom-0 w-0 h-px -mx-px duration-200 ease-out translate-y-px border-transparent bg-neutral-900 group-hover:border-l group-hover:border-r group-hover:border-neutral-900 left-1/2 group-hover:left-0 group-hover:w-full"></span>
+                </a>
+            </li>
+            <li class="hidden h-full md:block">
+                <a href="#" class="relative inline-flex items-center h-full px-3 group hover:text-neutral-900">
+                    <span>8</span>
+                    <span class="box-content absolute bottom-0 w-0 h-px -mx-px duration-200 ease-out translate-y-px border-transparent bg-neutral-900 group-hover:border-l group-hover:border-r group-hover:border-neutral-900 left-1/2 group-hover:left-0 group-hover:w-full"></span>
+                </a>
+            </li>
+            <li class="h-full">
+                <a href="#" class="relative inline-flex items-center h-full px-3 rounded-r group hover:text-neutral-900">
+                    <span>Next</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</div>
+</main>
 </body>
 
 </html>

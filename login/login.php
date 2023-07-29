@@ -37,6 +37,7 @@ if (!$user) {
   $_SESSION['session_id'] = session_id();
   $_SESSION['is_admin'] = $user['is_admin'];
   $_SESSION['username'] = $user['username'];
+  $_SESSION['email'] = $user['email'];
 
   header("Location:../bk_home2.php");
   exit();

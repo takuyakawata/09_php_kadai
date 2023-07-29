@@ -4,6 +4,8 @@ session_start();
 include("_functions.php");
 check_session_id();
 
+$user_id = $_SESSION['user_id'];
+
 //titleがなければ、エラー
 if (
   !isset($_POST['title']) || $_POST['title'] === ''
@@ -23,7 +25,7 @@ $isbn = $_POST['isbn'];//isbn(本の登録番号)
 $pdo = connect_to_db();
 
 // データをsqlで作成をする
-$sql = 'INSERT INTO  books_list(id, title, author, content, company, released_day, isbn, created_at, updated_at, deleted_at) VALUES ( NULL, :title, :author, :content, :company, :released_day, :isbn, now(), now(),  NULL)';
+$sql = 'INSERT INTO  books_list(id, title, author, content, company, released_day, isbn, created_at, updated_at, deleted_at,user_id) VALUES ( NULL, :title, :author, :content, :company, :released_day, :isbn, now(), now(),  NULL, :user_id)';
 
 //バインド変数の設定（データのハッキング対策）
 $stmt = $pdo->prepare($sql);
@@ -33,6 +35,7 @@ $stmt->bindValue(':content', $content, PDO::PARAM_STR);
 $stmt->bindValue(':company', $company, PDO::PARAM_STR);
 $stmt->bindValue(':released_day', $released_day, PDO::PARAM_STR);
 $stmt->bindValue(':isbn', $isbn, PDO::PARAM_STR);
+$stmt->bindValue(':user_id', $user_id, PDO::PARAM_STR);
 
 //エラーが起きにくくする　変数に処理を格納する（一つの内容に定義づける的な？かんじかな、今はよくわからんでも動けばおっけー
 try {

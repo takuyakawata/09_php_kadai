@@ -1,12 +1,16 @@
 <?php
 // -------------------------
-
+session_start();
+include('_functions.php');
+check_session_id();
 // -------------------------
 include('_head.php');
 include('_header.php');
 
 ?>
 <main>
+    
+  <p>GOOGLE BOOKS で検索</p>
 
 <?php
 // 本の検索のフォーム
@@ -233,13 +237,12 @@ axios.get(url)
         // 配列に入れる
         array.push(`
 
-            <li>
+        <li>
                 <img x-on:click="imageGalleryOpen"src="${response.data.items[i].volumeInfo.imageLinks.smallThumbnail}" class="object-cover select-none w-full h-auto bg-gray-200 rounded cursor-zoom-in aspect-[5/6] lg:aspect-[2/3] xl:aspect-[3/4]" alt="photo gallery image 01">
                 <h2 class="mt-4 text-sm text-gray-700">${response.data.items[i].volumeInfo.title}</h2>
                 <h3 class="mt-4 text-sm text-gray-700">${response.data.items[i].volumeInfo.authors}</h3>
                 <p class="mt-1 text-lg font-medium text-gray-900">
                  ${truncateText(response.data.items[i].volumeInfo.description,120)}</p>
-                 <a href="bk_home.php">読みたい</a><a>読んだ</a>
            </li>
 
 

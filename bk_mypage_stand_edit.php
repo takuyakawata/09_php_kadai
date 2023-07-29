@@ -1,14 +1,14 @@
 <?php
 session_start();
 
-include("functions.php");
+include("_functions.php");
 check_session_id();
 
-$id = $_GET["id"];
+$id = $_GET['id'];
 
 $pdo = connect_to_db();
 
-$sql = 'SELECT * FROM todo_table WHERE id=:id';
+$sql = 'SELECT * FROM books_list WHERE id=:id';
 
 $stmt = $pdo->prepare($sql);
 $stmt->bindValue(':id', $id, PDO::PARAM_INT);
@@ -30,13 +30,13 @@ $record = $stmt->fetch(PDO::FETCH_ASSOC);
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>DB連携型本棚（編集画面）</title>
+  <title>本棚（編集画面）</title>
 </head>
 
 <form action="bk_mypage_stand_update.php" method="POST">
     <fieldset>
       <legend>本棚への登録</legend>
-      <a href="bk_mypage_stand_read.php">本棚の一覧画面</a>
+      <a href="bk_mypage_stand_read.php">本棚</a>
       <a href="login/logout.php">logout</a>
 
 １バーコード
@@ -46,22 +46,25 @@ $record = $stmt->fetch(PDO::FETCH_ASSOC);
         画像: <input type="file" name="book_cover">
     </div> -->
     <div>
-        本のタイトル:<input type="text" name="title">
+        本のタイトル:<input type="text" name="title" value="<?= $record['title']?>">
     </div>
     <div>
-        著者:<input type="text" name="author">
+        著者:<input type="text" name="author" value="<?= $record['author'] ?>">
     </div>
     <div>
-        内容:<input type="text" name="content">
+        内容:<input type="text" name="content" value="<?= $record['content'] ?>">
     </div>
     <div>
-        出版社:<input type="text" name="company">
+        出版社:<input type="text" name="company" value="<?= $record['company'] ?>">
     </div>
     <div>
-        発売日:<input type="date" name="released_day">
+        発売日:<input type="date" name="released_day" value="<?= $record['released_day'] ?>">
     </div>
     <div>
-        ISBN:<input type="text" name="isbn">
+        ISBN:<input type="text" name="isbn" value="<?= $record['isbn'] ?>">
+    </div>
+        <div>
+      <input type="hidden" name="id" value="<?= $record['id'] ?>">
     </div>
 
     <div>

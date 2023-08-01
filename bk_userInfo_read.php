@@ -53,13 +53,13 @@ foreach ($result as $record) {
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>本棚（一覧画面）</title>
+  <title>ユーザー情報（一覧画面）</title>
 </head>
 
 <body>
  
 <div class="ml-5">
-    <legend>私の本棚</legend>
+    <legend>ユーザー情報</legend>
     <!-- Component: Base outline elevated button -->
     <a href="bk_mypage_stand_input.php">
         <button class="inline-flex items-center justify-center h-10 gap-2 px-5 text-sm font-medium tracking-wide transition duration-300 border rounded shadow-md focus-visible:outline-none whitespace-nowrap border-gray-500 text-gray-500 shadow-gray-200 hover:border-gray-600 hover:text-gray-600 focus:border-gray-700 focus:text-gray-700 hover:shadow-sm hover:shadow-gray-200 focus:shadow-sm focus:shadow-gray-200 disabled:cursor-not-allowed disabled:border-gray-300 disabled:text-gray-300 disabled:shadow-none">
@@ -179,67 +179,6 @@ foreach ($result as $record) {
   </div>
 
 
-<!-- ------------------------
-モーダルのパーツ
------------------------- -->
-<div class="flex items-center justify-between w-full h-16 px-3 border-t border-neutral-200">
-    <p class="pl-2 text-sm text-gray-700">Showing <span class="font-medium">1</span> to <span class="font-medium">10</span> of <span class="font-medium">??</span> results</p>
-    <nav>
-        <ul class="flex items-center text-sm leading-tight bg-white border divide-x rounded h-9 text-neutral-500 divide-neutral-200 border-neutral-200">
-            <li class="h-full">
-                <a href="#" class="relative inline-flex items-center h-full px-3 ml-0 rounded-l group hover:text-neutral-900">
-                    <span>Previous</span>
-                </a>
-            </li>
-            <li class="hidden h-full md:block">
-                <a href="#" class="relative inline-flex items-center h-full px-3 text-neutral-900 group bg-gray-50">
-                    <span>1</span>
-                    <span class="box-content absolute bottom-0 left-0 w-full h-px -mx-px translate-y-px border-l border-r bg-neutral-900 border-neutral-900"></span>
-                </a>
-            </li>
-            <li class="hidden h-full md:block">
-                <a href="#" class="relative inline-flex items-center h-full px-3 group hover:text-neutral-900">
-                    <span>2</span>
-                    <span class="box-content absolute bottom-0 w-0 h-px -mx-px duration-200 ease-out translate-y-px border-transparent bg-neutral-900 group-hover:border-l group-hover:border-r group-hover:border-neutral-900 left-1/2 group-hover:left-0 group-hover:w-full"></span>
-                </a>
-            </li>
-            <li class="hidden h-full md:block">
-                <a href="#" class="relative inline-flex items-center h-full px-3 group hover:text-neutral-900">
-                    <span>3</span>
-                    <span class="box-content absolute bottom-0 w-0 h-px -mx-px duration-200 ease-out translate-y-px border-transparent bg-neutral-900 group-hover:border-l group-hover:border-r group-hover:border-neutral-900 left-1/2 group-hover:left-0 group-hover:w-full"></span>
-                </a>
-            </li>
-            <li class="hidden h-full md:block">
-                <div class="relative inline-flex items-center h-full px-2.5 group">
-                    <span>...</span>
-                </div>
-            </li>
-            <li class="hidden h-full md:block">
-                <a href="#" class="relative inline-flex items-center h-full px-3 group hover:text-neutral-900">
-                    <span>6</span>
-                    <span class="box-content absolute bottom-0 w-0 h-px -mx-px duration-200 ease-out translate-y-px border-transparent bg-neutral-900 group-hover:border-l group-hover:border-r group-hover:border-neutral-900 left-1/2 group-hover:left-0 group-hover:w-full"></span>
-                </a>
-            </li>
-            <li class="hidden h-full md:block">
-                <a href="#" class="relative inline-flex items-center h-full px-3 group hover:text-neutral-900">
-                    <span>7</span>
-                    <span class="box-content absolute bottom-0 w-0 h-px -mx-px duration-200 ease-out translate-y-px border-transparent bg-neutral-900 group-hover:border-l group-hover:border-r group-hover:border-neutral-900 left-1/2 group-hover:left-0 group-hover:w-full"></span>
-                </a>
-            </li>
-            <li class="hidden h-full md:block">
-                <a href="#" class="relative inline-flex items-center h-full px-3 group hover:text-neutral-900">
-                    <span>8</span>
-                    <span class="box-content absolute bottom-0 w-0 h-px -mx-px duration-200 ease-out translate-y-px border-transparent bg-neutral-900 group-hover:border-l group-hover:border-r group-hover:border-neutral-900 left-1/2 group-hover:left-0 group-hover:w-full"></span>
-                </a>
-            </li>
-            <li class="h-full">
-                <a href="#" class="relative inline-flex items-center h-full px-3 rounded-r group hover:text-neutral-900">
-                    <span>Next</span>
-                </a>
-            </li>
-        </ul>
-    </nav>
-</div>
 </main>
 
 <?php

@@ -8,7 +8,7 @@ $id = $_GET['id'];
 
 $pdo = connect_to_db();
 
-$sql = 'SELECT * FROM books_list WHERE id=:id';
+$sql = 'SELECT * FROM books_users WHERE id=:id';
 
 $stmt = $pdo->prepare($sql);
 $stmt->bindValue(':id', $id, PDO::PARAM_INT);
@@ -30,34 +30,33 @@ $record = $stmt->fetch(PDO::FETCH_ASSOC);
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>本棚（編集画面）</title>
+  <title>ユーザー情報（編集画面）</title>
 </head>
 
-<form action="bk_mypage_stand_update.php" method="POST">
+<form action="bk_userInfo_update.php" method="POST">
     <fieldset>
-      <legend>本棚への登録</legend>
-      <a href="bk_mypage_stand_read.php">本棚</a>
-
+      <legend>ユーザー情報の変更</legend>
+      <a href="bk_mypage_stand_read.php">ユーザー情報</a>
     <!-- <div>
         画像: <input type="file" name="book_cover">
     </div> -->
     <div>
-        本のタイトル:<input type="text" name="title" value="<?= $record['title']?>">
+        username:<input type="text" name="username" value="<?= $record['username']?>">
     </div>
     <div>
-        著者:<input type="text" name="author" value="<?= $record['author'] ?>">
+        email:<input type="text" name="email" value="<?= $record['email'] ?>">
     </div>
     <div>
-        内容:<input type="text" name="content" value="<?= $record['content'] ?>">
+        password:<input type="password" name="password" value="<?= $record['password'] ?>">
     </div>
     <div>
-        出版社:<input type="text" name="company" value="<?= $record['company'] ?>">
+        学校名:<input type="text" name="school_name" value="<?= $record['school_name'] ?>">
     </div>
     <div>
-        発売日:<input type="date" name="released_day" value="<?= $record['released_day'] ?>">
+        学校種:<input type="text" name="school_kind" value="<?= $record['school_kind'] ?>">
     </div>
     <div>
-        ISBN:<input type="text" name="isbn" value="<?= $record['isbn'] ?>">
+        経験年数:<input type="text" name="school_year" value="<?= $record['school_year'] ?>">
     </div>
         <div>
       <input type="hidden" name="id" value="<?= $record['id'] ?>">

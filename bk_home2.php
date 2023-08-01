@@ -239,7 +239,9 @@ axios.get(url)
                 <h3 class="mt-4 text-sm text-gray-700">${response.data.items[i].volumeInfo.authors}</h3>
                 <p class="mt-1 text-lg font-medium text-gray-900">
                  ${truncateText(response.data.items[i].volumeInfo.description,120)}</p>
-                 <a href="bk_home.php">読みたい</a><a>読んだ</a>
+
+                 <a href="bk_mypage_fav_input.php">読みたい</a>
+                 <a href="bk_mypage_stand_input.php">読んだ</a>
            </li>
 
 

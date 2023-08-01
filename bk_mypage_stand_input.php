@@ -57,7 +57,7 @@ check_session_id();
     <a href="bk_mypage_stand_read.php" class="text-blue-500 hover:underline mb-2 block">本棚</a>
     <a href="login/logout.php" class="text-blue-500 hover:underline mb-4 block">logout</a>
 
-    <div class="mb-4 flex items-center">
+    <!-- <div class="mb-4 flex items-center">
       <label for="barcode" class="block text-gray-700 font-bold mr-2">１バーコード</label>
       <input type="radio" name="search_type" id="barcode" value="barcode">
     </div>
@@ -68,7 +68,7 @@ check_session_id();
     <div class="mb-4 flex items-center">
       <label for="manual" class="block text-gray-700 font-bold mr-2">３手入力</label>
       <input type="radio" name="search_type" id="manual" value="manual">
-    </div>
+    </div> -->
 
     <!-- 画像アップロードはコメントアウトしています -->
     <!-- <div class="mb-4">

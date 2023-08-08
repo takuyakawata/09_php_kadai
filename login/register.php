@@ -1,81 +1,75 @@
 <?php
-
-if (
-  !isset($_POST['name']) || $_POST['name'] === '' ||
-  !isset($_POST['pass']) || $_POST['pass'] === ''
-) {
-  exit('ParamError');
-}
-
-
-//フォームからの値をそれぞれ変数に代入
-$name = $_POST['name'];
+// 入力されたデータを送信
+$username = $_POST['username'];
 $email = $_POST['email'];
-$pass = password_hash($_POST['pass'], PASSWORD_DEFAULT);
+$password = $_POST['password'];
 
+// DBの接続
+include('../_functions.php');
+$pdo = connect_to_db();
 
-// DB 接続の処理
-    $dbn = 'mysql:dbname=gs_d13_18;charset=utf8mb4;port=3306;host=localhost';
-    $user = 'root';
-    $pwd = '';
+/// SQL参照
+$sql = "SELECT * FROM books_users WHERE email = :email AND deleted_at IS NULL";
+$stmt = $pdo->prepare($sql);
+$stmt->bindValue(':email', $email, PDO::PARAM_STR);
 
-// DB 接続情報を出力するように実装する
-try {
-  return new PDO($dbn, $user, $pwd);
-} catch (PDOException $e) {
-  echo json_encode(["db error" => "{$e->getMessage()}"]);
-  exit();
-}
-
-
-
-
-// // SQL作成&実行
-// //フォームに入力されたmailがすでに登録されていないかチェック
-// $sql = "SELECT * FROM books_users WHERE email = :email";
-
-// $stmt = $dbh->prepare($sql);
-
-// // バインド変数を設定 ハッキング対策
-// $stmt->bindValue(':email', $email);
-// $stmt->execute();
-// $member = $stmt->fetch();
-
-// // SQL実行
-// if ($member['email'] === (string)$email) {
-//     $msg = '同じメールアドレスが存在します。';
-//     $link = '<a href="signup.php">戻る</a>';
-// } else {
-    //登録されていなければinsert
-    $sql = "INSERT INTO books_users(name, email, pass) VALUES ( :name, :email, :pass)";
-
-    $stmt = $dbh->prepare($sql);
-
-    $stmt->bindValue(':name', $name, PDO::PARAM_STR);
-    $stmt->bindValue(':email', $email, PDO::PARAM_STR);
-    $stmt->bindValue(':pass', $pass, PDO::PARAM_STR);
-    $stmt->execute();
-    // SQL実行（実行に失敗すると `sql error ...` が出力される）
 try {
   $status = $stmt->execute();
+
 } catch (PDOException $e) {
   echo json_encode(["sql error" => "{$e->getMessage()}"]);
   exit();
 }
 
+// sqlの実行　　実行結果を連装配列にしている
+$result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+// var_dump($result);
+// exit();
 
+
+//フォームに入力されたemailがすでに登録されていないかチェック
+
+// フォームに入力されたemailがすでに登録されていないかチェック
+if (!empty($result)) {
+    foreach ($result as $row) {
+        if ($row['email'] === $email) {
+            $msg = '同じメールアドレスが存在します。';
+            $link = '<a href="signup.php">戻る</a>';
+            exit(); // エラーメッセージを表示したら処理を終了する
+        }
+    }
+
+
+} else { 
+    //登録されていなければinsert
+    $sql = 'INSERT INTO books_users(id, username, email, password, is_admin, created_at, updated_at, `deleted_at`) VALUES ( NULL ,:username, :email, :password,  0,  now(),  now(),  NULL)';
+
+    $stmt = $pdo->prepare($sql);
+    $stmt->bindValue(':username', $username, PDO::PARAM_STR);
+    $stmt->bindValue(':email', $email, PDO::PARAM_STR);
+    $stmt->bindValue(':password', $password, PDO::PARAM_STR);
+  
+    // SQL実行（実行に失敗すると `sql error ...` が出力される）
+try {
+  $status = $stmt->execute();
+
+} catch (PDOException $e) {
+  echo json_encode(["sql error" => "{$e->getMessage()}"]);
+  exit();
+}
 
     $msg = '会員登録が完了しました';
     $link = '<a href="login_form.php">ログインページ</a>';
+}
+
+// ----------------------------------------------------------
 
 ?>
-
-
 <!DOCTYPE html>
 <html lang="ja">
 <head>
 <meta charset="utf-8">
-<title>ログインフォーム</title>
+<title>メンバー登録</title>
 
 <link rel="stylesheet" href="css/bk_search.css">
 

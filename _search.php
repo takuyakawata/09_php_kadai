@@ -46,16 +46,17 @@ if (!empty($result)) {
 
 <form action="bk_search_create.php" method="POST">
 
-<div class="flex justify-center">
 
-    <div class="w-full max-w-xs mx-auto">
-    <input name="title" id="keyword" type="text" placeholder="入力してね" class="flex w-full h-10 px-3 py-2 text-sm bg-white border rounded-md border-neutral-300 ring-offset-background placeholder:text-neutral-500 focus:border-neutral-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-neutral-400 disabled:cursor-not-allowed disabled:opacity-50" />
-    </div>
 
-    <button id="send" class="inline-flex items-center justify-center px-4 py-2 text-sm font-medium tracking-wide text-white transition-colors duration-200 rounded-md bg-neutral-950 hover:bg-neutral-900 focus:ring-2 focus:ring-offset-2 focus:ring-neutral-900 focus:shadow-outline focus:outline-none">
+    <div class="flex w-full max-w-xs mx-auto">
+
+    <input name="title" id="keyword" type="text" placeholder="入力してね" class="flex w-full h-10 px-4 py-2 text-sm bg-white border rounded-md border-neutral-300 ring-offset-background placeholder:text-neutral-500 focus:border-neutral-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-neutral-400 disabled:cursor-not-allowed disabled:opacity-50" />
+   
+    <button id="send" class="flex  items-center justify-start px-6 py-2 text-sm font-medium tracking-wide text-white transition-colors duration-200 rounded-md bg-neutral-950 hover:bg-neutral-900 focus:ring-2 focus:ring-offset-2 focus:ring-neutral-900 focus:shadow-outline focus:outline-none">
     タイトルで検索
     </button>
 
-</div>
+    </div>
+
 
 </form>
